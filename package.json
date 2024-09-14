@@ -1,0 +1,24 @@
+{
+  "name": "jsqhelper",
+  "version": "1.0.0",
+  "description": "Js Jquery Helper",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kackcode/jsqhelper.git"
+  },
+  "keywords": [
+    "JavaScript",
+    "Jquery",
+    "Helper"
+  ],
+  "author": "kackcode",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kackcode/jsqhelper/issues"
+  },
+  "homepage": "https://github.com/kackcode/jsqhelper#readme"
+}
