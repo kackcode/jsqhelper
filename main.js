@@ -132,6 +132,13 @@ function ajaxUploadRequest(data, method, url, callback,beforCallback=null,comple
                     if (errorResponse.message) {
                         notificationHandler('error',errorResponse.message);
                         if (errorResponse.data) {
+                            if(errorResponse.type == 'form'){
+                                $.each(errorResponse.data, function(key, value) {
+                                    let input = $('[name=' + key + ']');
+                                    input.addClass('is-invalid');
+                                    input.after('<div class="invalid-feedback">' + value[0] + '</div>');
+                                });
+                            }
                         }
                         return false
                     }
