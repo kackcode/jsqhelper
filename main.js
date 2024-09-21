@@ -69,8 +69,15 @@ function ajaxRequest(data, method, url, callback,notificationHandler = toastNoti
                     errorResponse = response.responseJSON
                     if (errorResponse.message) {
                         notificationHandler('error',errorResponse.message);
-                        return false
                     }
+                    if(errorResponse.type == 'form'){
+                        $.each(errorResponse.data, function(key, value) {
+                            let input = $('[name=' + key + ']');
+                            input.addClass('is-invalid');
+                            input.after('<div class="invalid-feedback">' + value[0] + '</div>');
+                        });
+                    }
+                    return false
                 } else if (response.status == 500) {
                     notificationHandler('error',SERVER_ERROR);
                 }
@@ -131,17 +138,15 @@ function ajaxUploadRequest(data, method, url, callback,beforCallback=null,comple
                     errorResponse = response.responseJSON
                     if (errorResponse.message) {
                         notificationHandler('error',errorResponse.message);
-                        if (errorResponse.data) {
-                            if(errorResponse.type == 'form'){
-                                $.each(errorResponse.data, function(key, value) {
-                                    let input = $('[name=' + key + ']');
-                                    input.addClass('is-invalid');
-                                    input.after('<div class="invalid-feedback">' + value[0] + '</div>');
-                                });
-                            }
-                        }
-                        return false
                     }
+                    if(errorResponse.type == 'form'){
+                        $.each(errorResponse.data, function(key, value) {
+                            let input = $('[name=' + key + ']');
+                            input.addClass('is-invalid');
+                            input.after('<div class="invalid-feedback">' + value[0] + '</div>');
+                        });
+                    }
+                    return false
                 }
             } else {
                 if (callback != null) {
