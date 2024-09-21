@@ -52,6 +52,15 @@ $.ajaxSetup({
     }
 });
 
+$(document).ajaxError(function(event, jqxhr, settings, exception) {
+    if (jqxhr.status === 419) {  // CSRF token mismatch
+        // alert('Session expired. Reloading the page...');
+        setTimeout(function() {
+            location.reload();  // Reload after showing the message for a few seconds
+        }, 3000);
+    }
+});
+
 
 function ajaxRequest(data, method, url, callback,notificationHandler = toastNotification) {
     $.ajax({
