@@ -126,8 +126,14 @@ function spinnerHide(submitBtn, spinnerBtn, labelBtn, labelText) {
     labelBtn.text(labelText);
 }
 
+function updateSpinnerUI($form, $submitBtn, $spinProgress, onPause) {
+    $form.css('opacity', onPause ? 1 : 0.4);
+    $spinProgress.css('display', onPause ? 'none' : 'inline-block');
+    $submitBtn.prop('disabled', !onPause);
+}
 
 function ajaxUploadRequest(data, method, url, callback,beforCallback=null,completedCallback = null,notificationHandler = toastNotification) {
+    $('#loadingIndicator').show(); //
     $.ajax({
         url: url,
         dataType: 'json',
@@ -139,9 +145,11 @@ function ajaxUploadRequest(data, method, url, callback,beforCallback=null,comple
         data: data,
         type: method,
         success: function (response) {
+            $('#loadingIndicator').hide(); //
             callback(response)
         },
         error: function (response) {
+            $('#loadingIndicator').hide(); //
             if (response.status != 200) {
                 if (response.status == 400) {
                     errorResponse = response.responseJSON
