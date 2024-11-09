@@ -74,12 +74,19 @@ function ajaxRequest(data, method, url, callback,notificationHandler = toastNoti
         },
         error: function (response) {
             if (response.status != 200 | 201) {
-                if (response.status == 400) {
+                if (response.status == 400 | 422) {
                     errorResponse = response.responseJSON
                     if (errorResponse.message) {
                         notificationHandler('error',errorResponse.message);
                     }
                     if(errorResponse.type == 'form'){
+                        $.each(errorResponse.data, function(key, value) {
+                            let input = $('[name=' + key + ']');
+                            input.addClass('is-invalid');
+                            input.after('<div class="invalid-feedback">' + value[0] + '</div>');
+                        });
+                    }
+                    if ('errors' in errorResponse && Object.keys(errorResponse.errors).length > 0) {
                         $.each(errorResponse.errors, function(key, value) {
                             let input = $('[name=' + key + ']');
                             input.addClass('is-invalid');
@@ -156,12 +163,19 @@ function ajaxUploadRequest(data, method, url, callback,beforCallback=null,comple
         error: function (response) {
             $('#loadingIndicator').hide(); //
             if (response.status != 200) {
-                if (response.status == 400) {
+                if (response.status == 400 | 422) {
                     errorResponse = response.responseJSON
                     if (errorResponse.message) {
                         notificationHandler('error',errorResponse.message);
                     }
                     if(errorResponse.type == 'form'){
+                        $.each(errorResponse.data, function(key, value) {
+                            let input = $('[name=' + key + ']');
+                            input.addClass('is-invalid');
+                            input.after('<div class="invalid-feedback">' + value[0] + '</div>');
+                        });
+                    }
+                    if ('errors' in errorResponse && Object.keys(errorResponse.errors).length > 0) {
                         $.each(errorResponse.errors, function(key, value) {
                             let input = $('[name=' + key + ']');
                             input.addClass('is-invalid');
