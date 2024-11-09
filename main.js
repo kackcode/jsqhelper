@@ -80,10 +80,15 @@ function ajaxRequest(data, method, url, callback,notificationHandler = toastNoti
                         notificationHandler('error',errorResponse.message);
                     }
                     if(errorResponse.type == 'form'){
-                        $.each(errorResponse.data, function(key, value) {
+                        $.each(errorResponse.errors, function(key, value) {
                             let input = $('[name=' + key + ']');
                             input.addClass('is-invalid');
-                            input.after('<div class="invalid-feedback">' + value[0] + '</div>');
+                            input.next('.invalid-feedback').remove();
+                            // Iterate through each error message in the `value` array and display it
+                            $.each(value, function(index, errorMessage) {
+                                // Append each error message after the input field
+                                input.after('<div class="invalid-feedback">' + errorMessage + '</div>');
+                            });
                         });
                     }
                     return false
@@ -157,10 +162,15 @@ function ajaxUploadRequest(data, method, url, callback,beforCallback=null,comple
                         notificationHandler('error',errorResponse.message);
                     }
                     if(errorResponse.type == 'form'){
-                        $.each(errorResponse.data, function(key, value) {
+                        $.each(errorResponse.errors, function(key, value) {
                             let input = $('[name=' + key + ']');
                             input.addClass('is-invalid');
-                            input.after('<div class="invalid-feedback">' + value[0] + '</div>');
+                            input.next('.invalid-feedback').remove();
+                            // Iterate through each error message in the `value` array and display it
+                            $.each(value, function(index, errorMessage) {
+                                // Append each error message after the input field
+                                input.after('<div class="invalid-feedback">' + errorMessage + '</div>');
+                            });
                         });
                     }
                     return false
